@@ -8,7 +8,7 @@ int double_free(int arg) {
 	return 0;
 }
 void double_free_usage() {
-	printf("double free -- crashes if arg > 0");
+	printf("double free -- crashes if arg > 0\n");
 }
 
 int invalid_read(int arg) {
@@ -22,5 +22,5 @@ int invalid_read(int arg) {
 	else return 0;
 }
 void invalid_read_usage() {
-	printf("invalid read -- crashes if arg > 0");
+	printf("invalid read -- crashes if arg > 0\n");
 }

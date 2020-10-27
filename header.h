@@ -2,9 +2,10 @@
 #include<stdlib.h>
 
 enum FNS {
-	fn_double_free,
-	fn_invalid_read,
+	#define FN(x) fn_##x,
+	#include "functions.h"
+	#undef FN
 };
-
-int double_free(int arg);
-int invalid_read(int arg);
+#define FN(x) int x(int arg); void x##_usage();
+#include "functions.h"
+#undef FN

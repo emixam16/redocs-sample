@@ -5,26 +5,27 @@
 #define die(msg) printf("%s\n",msg); exit(EXIT_FAILURE); 
 
 
-void usage(){
-
+void usage(char * progname) {
+		
+		printf("Usage %s <fn> <arg>\n", progname);
+		int i=0;
+        #define FN(x) printf ("fn=%d -> ", i++); x##_usage();
+        #include "functions.h"
+        #undef FN
+		exit(EXIT_FAILURE);
 }
 int main(int argc, char** argv) {
-	assert(argc>2, "Error usage ./prog fn arg");
-
-	
+	if(argc < 2)
+		usage(argv[0]);	
 	int fn = atoi(argv[1]);
 	int arg = atoi(argv[2]);
 
 	switch(fn) {
-		case(fn_double_free):
-				double_free(arg);
-				break;
-		case(fn_invalid_read):
-				invalid_read(arg);
-				break;
+		#define FN(x) case(fn_##x): x(arg);break;
+		#include "functions.h"
+		#undef FN
 		default:
-				die("Incorrect function");
-
+			usage(argv[0]);
 	}
 	printf("DONE\n");
 	return EXIT_SUCCESS;
